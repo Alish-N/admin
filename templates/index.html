@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISP Customer Satisfaction Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 2rem;
+        }
+        .prediction-result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="text-center mb-0">ISP Customer Satisfaction Predictor</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="predictionForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="customer_id" class="form-label">Customer ID</label>
+                                    <input type="text" class="form-control" id="customer_id" name="customer_id" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="service_plan" class="form-label">Service Plan</label>
+                                    <select class="form-select" id="service_plan" name="service_plan" required>
+                                        <option value="Basic">Basic</option>
+                                        <option value="Standard">Standard</option>
+                                        <option value="Premium">Premium</option>
+                                        <option value="Enterprise">Enterprise</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="connection_type" class="form-label">Connection Type</label>
+                                    <select class="form-select" id="connection_type" name="connection_type" required>
+                                        <option value="Fiber">Fiber</option>
+                                        <option value="Cable">Cable</option>
+                                        <option value="DSL">DSL</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="monthly_fee" class="form-label">Monthly Fee ($)</label>
+                                    <input type="number" class="form-control" id="monthly_fee" name="monthly_fee" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="data_usage_gb" class="form-label">Data Usage (GB)</label>
+                                    <input type="number" class="form-control" id="data_usage_gb" name="data_usage_gb" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="avg_speed_mbps" class="form-label">Average Speed (Mbps)</label>
+                                    <input type="number" class="form-control" id="avg_speed_mbps" name="avg_speed_mbps" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="uptime_percentage" class="form-label">Uptime Percentage</label>
+                                    <input type="number" class="form-control" id="uptime_percentage" name="uptime_percentage" required step="0.1" max="100">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="payment_status" class="form-label">Payment Status</label>
+                                    <select class="form-select" id="payment_status" name="payment_status" required>
+                                        <option value="Paid">Paid</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Overdue">Overdue</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="last_payment_date" class="form-label">Last Payment Date</label>
+                                    <input type="date" class="form-control" id="last_payment_date" name="last_payment_date" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="contract_start_date" class="form-label">Contract Start Date</label>
+                                    <input type="date" class="form-control" id="contract_start_date" name="contract_start_date" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="last_ticket_date" class="form-label">Last Ticket Date</label>
+                                    <input type="date" class="form-control" id="last_ticket_date" name="last_ticket_date" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="active_tickets" class="form-label">Active Tickets</label>
+                                    <input type="number" class="form-control" id="active_tickets" name="active_tickets" required min="0">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="ticket_type" class="form-label">Ticket Type</label>
+                                    <select class="form-select" id="ticket_type" name="ticket_type" required>
+                                        <option value="Technical Issue">Technical Issue</option>
+                                        <option value="Billing Issue">Billing Issue</option>
+                                        <option value="Service Request">Service Request</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="ticket_status" class="form-label">Ticket Status</label>
+                                    <select class="form-select" id="ticket_status" name="ticket_status" required>
+                                        <option value="Open">Open</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Closed">Closed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Predict Satisfaction</button>
+                            </div>
+                        </form>
+
+                        <div id="result" class="prediction-result text-center" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function makeRequest(url, data) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await response.text();
+                throw new Error(`Expected JSON response but got: ${text}`);
+            }
+
+            return response.json();
+        }
+
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Add dummy values for fields that are not used in prediction but required by the model
+            data.full_name = "Test User";
+            data.email = "test@example.com";
+            data.phone = "+1-234-567-8900";
+            data.address = "123 Test St";
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'prediction-result text-center bg-info text-white';
+            resultDiv.textContent = 'Processing...';
+
+            try {
+                const result = await makeRequest('/predict', data);
+
+                if (result.status === 'success') {
+                    const satisfaction = result.prediction.toFixed(2);
+                    let message = `Predicted Customer Satisfaction: ${satisfaction}/10`;
+                    let color = '';
+
+                    if (satisfaction >= 7) {
+                        color = 'bg-success text-white';
+                    } else if (satisfaction >= 5) {
+                        color = 'bg-warning';
+                    } else {
+                        color = 'bg-danger text-white';
+                    }
+
+                    resultDiv.className = `prediction-result text-center ${color}`;
+                    resultDiv.textContent = message;
+                } else {
+                    resultDiv.className = 'prediction-result text-center bg-danger text-white';
+                    resultDiv.textContent = `Error: ${result.message}`;
+                    if (result.details) {
+                        console.error('Prediction error details:', result.details);
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.className = 'prediction-result text-center bg-danger text-white';
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+
+        // Set default dates and initialize form
+        function initializeForm() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('last_payment_date').value = today;
+            document.getElementById('last_ticket_date').value = today;
+            
+            const oneYearAgo = new Date();
+            oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+            document.getElementById('contract_start_date').value = oneYearAgo.toISOString().split('T')[0];
+
+            // Set some default values for numeric fields
+            document.getElementById('monthly_fee').value = '50';
+            document.getElementById('data_usage_gb').value = '100';
+            document.getElementById('avg_speed_mbps').value = '100';
+            document.getElementById('uptime_percentage').value = '99.9';
+            document.getElementById('active_tickets').value = '0';
+        }
+
+        // Initialize the form when the page loads
+        initializeForm();
+    </script>
+</body>
+</html> 
